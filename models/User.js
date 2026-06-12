@@ -7,6 +7,6 @@ const userSchema = new Schema({
     isActive : {type : Boolean, default: true},
     lastLogin : {type: Date},
 
-}, {typestamps: true});
+}, {timestamps: true});
 
 export default models.User || model('User', userSchema)
