@@ -1,15 +1,15 @@
 import { connectDB } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import User from "../../../../models/User";
+import Prescription from "../../../../models/Prescription";
 
 export async function GET() {
     try {
         await connectDB();
-        const users = await User.find({});
-        return NextResponse.json(users)
+        const prescriptions = await Prescription.find({});
+        return NextResponse.json(prescriptions)
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ error: 'Failed to Fetch users' }, { status: 500 })
+        return NextResponse.json({ error: 'Failed to Fetch Prescriptions' }, { status: 500 })
     }
 
 }
@@ -18,11 +18,11 @@ export async function POST(req) {
     try {
         await connectDB();
         const body = await req.json();
-        const users = await User.create(body);
-        return NextResponse.json(users, { status: 201 })
+        const prescription = await Prescription.create(body);
+        return NextResponse.json(prescription, { status: 201 })
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ error: 'Failed to Create users' }, { status: 500 })
+        return NextResponse.json({ error: 'Failed to Create Prescription' }, { status: 500 })
     }
 }
 
@@ -32,9 +32,9 @@ export async function PUT(req) {
         const body = await req.json();
         const {id, ...updateData} = body;
 
-        const updated = await User.findByIdAndUpdate(id, updateData, { new: true })
+        const updated = await Prescription.findByIdAndUpdate(id, updateData, { new: true })
         if (!updated) {
-            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+            return NextResponse.json({ error: 'Prescription not Found' }, { status: 404 });
         }
         return NextResponse.json(updated)
     } catch (error) {

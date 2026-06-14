@@ -1,15 +1,15 @@
 import { connectDB } from "@/lib/mongodb";
-import Doctor from "../../../../models/Doctor";
+import LabTest from "../../../../models/LabTest";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
         await connectDB();
-        const doctors = await Doctor.find({});
-        return NextResponse.json(doctors)
+        const labTests = await LabTest.find({});
+        return NextResponse.json(labTests)
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ error: 'Failed to Fetch Data' }, { status: 500 })
+        return NextResponse.json({ message: 'Failed to Fetch Data' }, { status: 500 })
     }
 }
 
@@ -17,24 +17,24 @@ export async function POST(req) {
     try {
         await connectDB();
         const body = await req.json();
-        const doctor = await Doctor.create(body);
-        return NextResponse.json(doctor, { status: 201 })
+        const labTest = await LabTest.create(body);
+        return NextResponse.json(labTest, { status: 201 })
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ error: 'Failed to Create Data' }, { status: 500 })
+        return NextResponse.json({ message: 'Failed to Create Test' }, { status: 500 })
     }
 }
-
 
 export async function PUT(req) {
     try {
         await connectDB();
         const body = await req.json();
         const { id, ...updateData } = body;
-        const updated = await Doctor.findByIdAndUpdate(id, updateData, { new: true });
+        const updated = await LabTest.findByIdAndUpdate(id, updateData,{ new: true })
         return NextResponse.json(updated)
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ error: 'Failed to Update Data' }, { status: 500 })
+        return NextResponse.json({ message: 'Failed to Update' }, { status: 500 })
     }
 }
+
